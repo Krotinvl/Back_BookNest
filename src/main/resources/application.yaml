@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://booknest_user:ThZTf1PkyRjU27NMa1YkQPw7cI8xlOAh@dpg-d4a7s1muk2gs73feeerg-a.frankfurt-postgres.render.com/booknest_db_6jhl
+    url: jdbc:postgresql+asyncpg://booknest_user:ThZTf1PkyRjU27NMa1YkQPw7cI8xlOAh@dpg-d4a7s1muk2gs73feeerg-a.frankfurt-postgres.render.com/booknest_db_6jhl
     username: booknest_user
     password: ThZTf1PkyRjU27NMa1YkQPw7cI8xlOAh
     driver-class-name: org.postgresql.Driver
