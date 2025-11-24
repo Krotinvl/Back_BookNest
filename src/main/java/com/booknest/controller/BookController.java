@@ -74,7 +74,9 @@ public class BookController {
             book.getDescription(),
             book.getPublishing(),
             book.getDateOfPublication(),
-            book.getCycle()
-        );
+            book.getCycle(),
+            book.getImage(),
+            book 
+           );
     }
 }

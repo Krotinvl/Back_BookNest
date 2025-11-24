@@ -21,6 +21,10 @@ public class Book {
     private String publishing;
     private String dateOfPublication;
     private String cycle;
+    @Lob
+    private byte[] image; 
+    
+    private String image_type;
     
     @OneToMany(mappedBy = "book")
     private List<Library> libraries = new ArrayList<>();
@@ -46,6 +50,10 @@ public class Book {
     public void setDateOfPublication(String dateOfPublication) { this.dateOfPublication = dateOfPublication; }
     public String getCycle() { return cycle; }
     public void setCycle(String cycle) { this.cycle = cycle; }
+    public byte[] getImage() { return image;}
+    public void setImage(byte[] image) { this.image = image;}
+    public String getImage_type() { return image_type;}
+    public void setImage_type(String image_type) { this.image_type = image_type;}
     public List<Library> getLibraries() { return libraries; }
     public void setLibraries(List<Library> libraries) { this.libraries = libraries; }
 }
