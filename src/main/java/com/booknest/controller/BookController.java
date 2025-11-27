@@ -76,7 +76,7 @@ public class BookController {
             book.getDateOfPublication(),
             book.getCycle(),
             book.getImage(),
-            book 
+            book.getImage_type()
            );
     }
 }

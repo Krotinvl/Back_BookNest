@@ -21,7 +21,6 @@ public class Book {
     private String publishing;
     private String dateOfPublication;
     private String cycle;
-    @Lob
     private byte[] image; 
     
     private String image_type;

@@ -1,4 +1,5 @@
 package com.booknest.dto;
+import java.util.Base64;
 
 
 public class BookDto {
@@ -11,7 +12,7 @@ public class BookDto {
     private String publishing;
     private String dateOfPublication;
     private String cycle;
-    private byte[] image; 
+    private String image; 
     private String image_type;
     
     public BookDto() {}
@@ -28,7 +29,10 @@ public class BookDto {
         this.publishing = publishing;
         this.dateOfPublication = dateOfPublication;
         this.cycle = cycle;
-        this.image= image;
+        Base64.Encoder encoder = Base64.getEncoder();
+        String image_base64 = encoder.encodeToString(image); 
+        
+        this.image= image_base64;
         this.image_type= image_type;
     }
     
@@ -60,8 +64,8 @@ public class BookDto {
     public String getCycle() { return cycle; }
     public void setCycle(String cycle) { this.cycle = cycle; }
 
-    public byte[] getImage() { return image;}
-    public void setImage(byte[] image) { this.image = image;}
+    public String getImage() { return image;}
+    public void setImage(String image) { this.image = image;}
     
     public String getImage_type() { return image_type;}
     public void setImage_type(String image_type) { this.image_type = image_type;}
