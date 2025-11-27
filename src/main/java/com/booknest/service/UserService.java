@@ -1,6 +1,7 @@
 package com.booknest.service;
 
 import com.booknest.dto.UserRegistrationDto;
+import com.booknest.dto.UserDto;
 import com.booknest.model.User;
 import com.booknest.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder; // ИМПОРТ ДОБАВЛЕН
@@ -20,7 +21,23 @@ public class UserService {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
-    
+
+    public Optional<UserDto> getUserByUsername(String username) {
+        return userRepository.findById(username) 
+                .map(this::convertToDto);
+    }
+
+    private UserDto convertToDto(User user) {
+        UserDto dto = new UserDto();
+        dto.setUsername(user.getUsername());
+        dto.setName(user.getName());
+        dto.setEmail(user.getEmail());
+        dto.setDescription(user.getDescription());
+        dto.setTelephone(user.getTelephone());
+        dto.setActiveDays(user.getActiveDays());
+        return dto;
+    }
+
     public User registerUser(UserRegistrationDto registrationDto) {
         if (userRepository.existsByUsername(registrationDto.getUsername())) {
             throw new RuntimeException("Username already exists");
