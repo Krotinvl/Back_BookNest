@@ -1,7 +1,7 @@
 package com.booknest.controller;
 
 import com.booknest.dto.UserRegistrationDto;
-import com.booknest.service.UserRegService;
+import com.booknest.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +14,9 @@ import java.util.Map;
 @CrossOrigin(origins = "*")
 public class AuthController {
     
-    private final UserRegService userService;
+    private final UserService userService;
     
-    public AuthController(UserRegService userService) {
+    public AuthController(UserService userService) {
         this.userService = userService;
     }
     
