@@ -6,10 +6,14 @@
 
 group = 'com.booknest'
 version = '1.0.0'
-sourceCompatibility = '21'
 
 repositories {
     mavenCentral()
+}
+
+java {
+    sourceCompatibility = '21'
+    targetCompatibility = '21'
 }
 
 dependencies {

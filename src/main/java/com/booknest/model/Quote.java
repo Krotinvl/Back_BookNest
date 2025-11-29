@@ -1,0 +1,43 @@
+package com.booknest.model;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "quotes")
+public class Quote {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_quote")
+    private Long id;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_user")
+    private User user;
+    
+    @Column(length = 500)
+    private String text;
+    
+    @Column(length = 100)
+    private String book;
+    
+    @Column(name = "character", length = 100)
+    private String character;
+    
+    public Quote() {}
+    
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
+    
+    public String getText() { return text; }
+    public void setText(String text) { this.text = text; }
+    
+    public String getBook() { return book; }
+    public void setBook(String book) { this.book = book; }
+    
+    public String getCharacter() { return character; }
+    public void setCharacter(String character) { this.character = character; }
+}

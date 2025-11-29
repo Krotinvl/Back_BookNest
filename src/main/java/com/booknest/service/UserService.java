@@ -1,6 +1,7 @@
 package com.booknest.service;
 
 import com.booknest.dto.UserRegistrationDto;
+import com.booknest.dto.UpdateUserDto;
 import com.booknest.dto.UserDto;
 import com.booknest.model.User;
 import com.booknest.repository.UserRepository;
@@ -59,5 +60,26 @@ public class UserService {
         return userRepository.save(user);
     }
     
+    public UserDto updateUser(String username, UpdateUserDto updateUserDto) {
+    User user = userRepository.findById(username)
+            .orElseThrow(() -> new RuntimeException("Пользователь не найден: " + username));
+    
+    // Обновляем только переданные поля
+    if (updateUserDto.getName() != null) {
+        user.setName(updateUserDto.getName());
+    }
+    if (updateUserDto.getEmail() != null) {
+        user.setEmail(updateUserDto.getEmail());
+    }
+    if (updateUserDto.getDescription() != null) {
+        user.setDescription(updateUserDto.getDescription());
+    }
+    if (updateUserDto.getTelephone() != null) {
+        user.setTelephone(updateUserDto.getTelephone());
+    }
+    
+    User updatedUser = userRepository.save(user);
+    return convertToDto(updatedUser);
+}
 
 }

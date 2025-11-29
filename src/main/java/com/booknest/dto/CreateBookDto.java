@@ -1,7 +1,5 @@
 package com.booknest.dto;
 
-import java.util.Base64;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -32,7 +30,7 @@ public class CreateBookDto {
     
     public CreateBookDto(String title, String author, String genre, Integer pages, 
     String description, String publishing, String dateOfPublication, 
-     String cycle, byte[] image, String imageType) {
+     String cycle, String image, String imageType) {
         this.title = title;
         this.author = author;
         this.genre = genre;
@@ -41,9 +39,7 @@ public class CreateBookDto {
         this.publishing = publishing;
         this.dateOfPublication = dateOfPublication;
         this.cycle = cycle;
-        Base64.Encoder encoder = Base64.getEncoder();
-        String image_base64 = encoder.encodeToString(image); 
-        this.image=image_base64;
+        this.image=image;
         this.imageType = imageType;
     }
     
@@ -76,6 +72,6 @@ public class CreateBookDto {
     public String getImage() { return image; }
     public void setImage(String image) { this.image = image; }
     
-    public String getImageType() { return imageType; }
-    public void setImageType(String imageType) { this.imageType = imageType; }
+    public String getImage_type() { return imageType; }
+    public void setImage_type(String imageType) { this.imageType = imageType; }
 }

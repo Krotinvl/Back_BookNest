@@ -1,6 +1,6 @@
 package com.booknest.dto;
-import java.util.Base64;
 
+import java.util.Base64;
 
 public class BookDto {
     private Long id;
@@ -12,7 +12,7 @@ public class BookDto {
     private String publishing;
     private String dateOfPublication;
     private String cycle;
-    private String image; 
+    private byte[] image; 
     private String image_type;
     
     public BookDto() {}
@@ -29,10 +29,7 @@ public class BookDto {
         this.publishing = publishing;
         this.dateOfPublication = dateOfPublication;
         this.cycle = cycle;
-        Base64.Encoder encoder = Base64.getEncoder();
-        String image_base64 = encoder.encodeToString(image); 
-        
-        this.image= image_base64;
+        this.image= image;
         this.image_type= image_type;
     }
     
@@ -64,9 +61,30 @@ public class BookDto {
     public String getCycle() { return cycle; }
     public void setCycle(String cycle) { this.cycle = cycle; }
 
-    public String getImage() { return image;}
-    public void setImage(String image) { this.image = image;}
+    public String getImage() {
+        if (this.image != null) {
+            Base64.Encoder encoder = Base64.getEncoder();
+            return encoder.encodeToString(this.image);
+        }
+        return null;
+    }
+    public void setImage(String imageBase64) {
+        if (imageBase64 != null && !imageBase64.isEmpty()) {
+            Base64.Decoder decoder = Base64.getDecoder();
+            this.image = decoder.decode(imageBase64);
+        } else {
+            this.image = null;
+        }
+    }
     
-    public String getImage_type() { return image_type;}
-    public void setImage_type(String image_type) { this.image_type = image_type;}
+    public byte[] getImageBytes() {
+        return this.image;
+    }
+    
+    public void setImageBytes(byte[] image) {
+        this.image = image;
+    }
+    
+    public String getImage_type() { return image_type; }
+    public void setImage_type(String image_type) { this.image_type = image_type; }
 }

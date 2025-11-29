@@ -21,4 +21,7 @@ public interface LibraryRepository extends JpaRepository< Library, LibraryId> {
     
     //  Найти книги по пользователю и коллекции
     List<Library> findByUser_UsernameAndCollection(String username, String collection);
+    
+    // Проверка наличия книги в библиотеке пользователя
+    List<Library> findByUser_UsernameAndBook_Id(String username, Long bookId);
 }
