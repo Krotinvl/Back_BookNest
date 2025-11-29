@@ -1,6 +1,6 @@
 package com.booknest.dto;
 
-public class ReviewUserDto {
+public class ReviewBookDto {
     private String username;
     private Long bookId;
     private String bookTitle;
@@ -9,7 +9,7 @@ public class ReviewUserDto {
     private Integer rating;
     private String text;
 
-    public ReviewUserDto() {}
+    public ReviewBookDto() {}
     
     // Getters and Setters
     public String getUsername() { return username;}
@@ -28,7 +28,7 @@ public class ReviewUserDto {
     public void setBookGenre(String bookGenre) {this.bookGenre = bookAuthor; }
     
     public Integer getRating() { return rating;}
-    public void setreting( Integer rating) { this.rating = rating;}
+    public void setRating( Integer rating) { this.rating = rating;}
 
     public String getText() { return text;}
     public void setText(String text) { this.text = text;}

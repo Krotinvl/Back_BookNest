@@ -1,8 +1,14 @@
 package com.booknest.controller;
 
 import com.booknest.dto.BookDto;
+import com.booknest.dto.CreateBookDto;
+import com.booknest.dto.ReviewBookDto;
 import com.booknest.model.Book;
 import com.booknest.service.BookService;
+import com.booknest.service.ReviewService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,15 +16,18 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
 @RestController
 @RequestMapping("/api/books")
 @CrossOrigin(origins = "*")
 public class BookController {
     
     private final BookService bookService;
+    private final ReviewService reviewService;
     
-    public BookController(BookService bookService) {
+    public BookController(BookService bookService, ReviewService reviewService) {
         this.bookService = bookService;
+        this.reviewService = reviewService;
     }
     
     @GetMapping
@@ -63,8 +72,27 @@ public class BookController {
             .collect(Collectors.toList());
         return ResponseEntity.ok(bookDtos);
     }
+
+    @GetMapping("/{id}/review")
+    public ResponseEntity<List<ReviewBookDto>>getReviewBook(@PathVariable Long id ) {
+        List<ReviewBookDto> reviewBoks = reviewService.getReviewBook(id);
+        return ResponseEntity.ok(reviewBoks);
+        
+        
+    }
+
+     @PostMapping
+    public ResponseEntity<BookDto> createBook(@Valid @RequestBody CreateBookDto createBookDto) {
+        try {
+            BookDto createdBook = bookService.createBook(createBookDto);
+            return ResponseEntity.ok(createdBook);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
     
-    private BookDto convertToDto(Book book) {
+    
+    BookDto convertToDto(Book book) {
         return new BookDto(
             book.getId(),
             book.getTitle(),

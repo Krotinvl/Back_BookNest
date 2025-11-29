@@ -37,4 +37,5 @@ public class BookService {
     public List<Book> getBooksByGenre(String genre) {
         return bookRepository.findByGenreContainingIgnoreCase(genre);
     }
+
 }

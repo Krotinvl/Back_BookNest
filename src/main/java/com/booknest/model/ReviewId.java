@@ -1,6 +1,7 @@
 package com.booknest.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class ReviewId implements Serializable {
     private Long book;
@@ -13,7 +14,6 @@ public class ReviewId implements Serializable {
         this.user = user;
     }
     
-    // Геттеры и сеттеры не надоело?
     public Long getBook() { return book; }
     public void setBook(Long book) { this.book = book; }
     
@@ -25,11 +25,11 @@ public class ReviewId implements Serializable {
         if (this == o) return true;
         if (!(o instanceof ReviewId)) return false;
         ReviewId that = (ReviewId) o;
-        return book.equals(that.book) && user.equals(that.user);
+        return Objects.equals(book, that.book) && Objects.equals(user, that.user);
     }
     
     @Override
     public int hashCode() {
-        return book.hashCode() + user.hashCode();
+        return Objects.hash(book, user);
     }
 }
