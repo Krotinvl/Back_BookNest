@@ -1,11 +1,13 @@
 package com.booknest.controller;
 
 import com.booknest.dto.AddToLibraryDto;
+import com.booknest.dto.CharacterDto;
 import com.booknest.dto.LibraryBookDto;
 import com.booknest.dto.QuoteDto;
 import com.booknest.dto.UpdateCollectionDto;
 import com.booknest.dto.UpdateUserDto;
 import com.booknest.dto.UserDto;
+import com.booknest.service.CharacterService;
 import com.booknest.service.LibraryService;
 import com.booknest.service.QuoteService;
 import com.booknest.service.UserService;
@@ -24,12 +26,14 @@ public class UserController {
     
     private final UserService userService;
     private final LibraryService libraryService;
-    private final QuoteService  quoteService;
+    private final QuoteService quoteService;
+    private final CharacterService characterService;
     
-    public UserController(UserService userService, LibraryService libraryService, QuoteService quoteService) {
+    public UserController(UserService userService, LibraryService libraryService, QuoteService quoteService, CharacterService characterService) {
         this.userService = userService;
         this.libraryService = libraryService;
         this.quoteService = quoteService;
+        this.characterService = characterService;
     }
     
 
@@ -94,6 +98,16 @@ public class UserController {
         return ResponseEntity.ok(quotes);
     }
 
+    @GetMapping("/quotes/{quoteId}")
+    public ResponseEntity<List<QuoteDto>> getQuoteById(@PathVariable Long quoteId) {
+        List<QuoteDto> quotes = quoteService.getQuoteById(quoteId);
+        return ResponseEntity.ok(quotes);
+    }
+    @GetMapping("/{username}/characters")
+    public ResponseEntity<List<CharacterDto>> getUserCharacters(@PathVariable String username) {
+        List<CharacterDto> characters = characterService.getUserCharacters(username);
+        return ResponseEntity.ok(characters);
+    }
 
 @PutMapping("/{username}")
 public ResponseEntity<UserDto> updateUser(

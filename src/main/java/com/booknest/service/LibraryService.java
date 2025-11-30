@@ -82,8 +82,7 @@ public LibraryBookDto addBookToUserLibrary(String username, AddToLibraryDto addT
     
     public List<LibraryBookDto> getUserLibraryBooks(String username) {
         
-        // Получаем книги из библиотеки с JOIN FETCH для оптимизации
-        List<Library> libraries = libraryRepository.findByUsernameWithBooks(username);
+        List<Library> libraries = libraryRepository.findByUser_Username(username);
         
         // Преобразуем в DTO
         return libraries.stream()

@@ -29,4 +29,18 @@ public class QuoteService {
                 ))
                 .collect(Collectors.toList());
     }
+    
+    // Получение цитаты по ID
+    public List<QuoteDto> getQuoteById(Long id) {
+        List<Quote> quotes = quoteRepository.findByIdQuote(id);
+        
+        return quotes.stream()
+                .map(quote -> new QuoteDto(
+                    quote.getId(),
+                    quote.getText(),
+                    quote.getBook(),
+                    quote.getCharacter()
+                ))
+                .collect(Collectors.toList());
+    }
 }
