@@ -2,7 +2,9 @@ package com.booknest.controller;
 
 import com.booknest.dto.BookDto;
 import com.booknest.dto.CreateBookDto;
+import com.booknest.dto.CreateReviewDto;
 import com.booknest.dto.ReviewBookDto;
+import com.booknest.dto.UpdateReviewDto;
 import com.booknest.model.Book;
 import com.booknest.service.BookService;
 import com.booknest.service.ReviewService;
@@ -79,6 +81,32 @@ public class BookController {
         return ResponseEntity.ok(reviewBoks);
         
         
+    }
+
+    @PutMapping("/{bookId}/review/{username}")
+    public ResponseEntity<ReviewBookDto> updateReview(
+            @PathVariable Long bookId,
+            @PathVariable String username,
+            @Valid @RequestBody UpdateReviewDto updateReviewDto) {
+        try {
+            ReviewBookDto updatedReview = reviewService.updateReview(bookId, username, updateReviewDto);
+            return ResponseEntity.ok(updatedReview);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/{bookId}/review/{username}")
+    public ResponseEntity<ReviewBookDto> createReview(
+            @PathVariable Long bookId,
+            @PathVariable String username,
+            @Valid @RequestBody CreateReviewDto createReviewDto) {
+        try {
+            ReviewBookDto createdReview = reviewService.createReview(username, createReviewDto);
+            return ResponseEntity.ok(createdReview);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
      @PostMapping

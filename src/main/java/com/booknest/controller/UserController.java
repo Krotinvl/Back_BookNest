@@ -2,9 +2,13 @@ package com.booknest.controller;
 
 import com.booknest.dto.AddToLibraryDto;
 import com.booknest.dto.CharacterDto;
+import com.booknest.dto.CreateCharacterDto;
+import com.booknest.dto.CreateQuoteDto;
 import com.booknest.dto.LibraryBookDto;
 import com.booknest.dto.QuoteDto;
+import com.booknest.dto.UpdateCharacterDto;
 import com.booknest.dto.UpdateCollectionDto;
+import com.booknest.dto.UpdateQuoteDto;
 import com.booknest.dto.UpdateUserDto;
 import com.booknest.dto.UserDto;
 import com.booknest.service.CharacterService;
@@ -109,6 +113,16 @@ public class UserController {
         return ResponseEntity.ok(characters);
     }
 
+    @GetMapping("/{username}/characters/{characterName}")
+    public ResponseEntity<CharacterDto> getCharacterById(@PathVariable String username, @PathVariable String characterName) {
+        try {
+            CharacterDto character = characterService.getCharacterByCharterName(username, characterName);
+            return ResponseEntity.ok(character);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 @PutMapping("/{username}")
 public ResponseEntity<UserDto> updateUser(
         @PathVariable String username,
@@ -120,5 +134,65 @@ public ResponseEntity<UserDto> updateUser(
         return ResponseEntity.notFound().build();
     }
 }
+
+    @PutMapping("/{username}/quotes/{quoteId}")
+    public ResponseEntity<QuoteDto> updateQuote(
+            @PathVariable String username,
+            @PathVariable Long quoteId,
+            @Valid @RequestBody UpdateQuoteDto updateQuoteDto) {
+        try {
+            QuoteDto updatedQuote = quoteService.updateQuote(quoteId, updateQuoteDto);
+            return ResponseEntity.ok(updatedQuote);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/{username}/quotes")
+    public ResponseEntity<QuoteDto> createQuote(
+            @PathVariable String username,
+            @Valid @RequestBody CreateQuoteDto createQuoteDto) {
+        try {
+            QuoteDto createdQuote = quoteService.createQuote(username, createQuoteDto);
+            return ResponseEntity.ok(createdQuote);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PutMapping("/{username}/characters/{characterName}")
+    public ResponseEntity<CharacterDto> updateCharacter(
+            @PathVariable String username,
+            @PathVariable String characterName,
+            @Valid @RequestBody UpdateCharacterDto updateCharacterDto) {
+        try {
+            CharacterDto updatedCharacter = characterService.updateCharacter(username, characterName, updateCharacterDto);
+            return ResponseEntity.ok(updatedCharacter);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/{username}/characters")
+    public ResponseEntity<CharacterDto> createCharacter(
+            @PathVariable String username,
+            @Valid @RequestBody CreateCharacterDto createCharacterDto) {
+        try {
+            CharacterDto createdCharacter = characterService.createCharacter(username, createCharacterDto);
+            return ResponseEntity.ok(createdCharacter);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @DeleteMapping("/{username}")
+    public ResponseEntity<Void> deleteUser(@PathVariable String username) {
+        try {
+            userService.deleteUser(username);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 }

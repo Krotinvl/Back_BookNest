@@ -59,6 +59,25 @@ git clone https://github.com/Krotinvl/Back_BookNest.git
 
 ### Reviews
 - `GET /api/books/{id}/review` — получить отзывы для книги.
+- `PUT /api/books/{bookId}/review/{username}` — обновить отзыв пользователя.
+
+	Пример Body (JSON):
+	```json
+	{
+		"rating": 5,
+		"text": ""
+	}
+	```
+- `POST /api/books/{bookId}/review/{username}` — создать новый отзыв.
+
+	Пример Body (JSON):
+	```json
+	{
+		"bookId": 1,
+		"rating": 5,
+		"text": ""
+	}
+	```
 
 ### User profile
 - `GET /api/users/{username}` — получить профиль пользователя.
@@ -73,6 +92,7 @@ git clone https://github.com/Krotinvl/Back_BookNest.git
 		"telephone": ""
 	}
 	```
+- `DELETE /api/users/{username}` — удалить пользователя.
 
 ### Library
 - `GET /api/users/{username}/library` — получить все записи библиотеки пользователя.
@@ -97,6 +117,48 @@ git clone https://github.com/Krotinvl/Back_BookNest.git
 ### Quotes
 - `GET /api/users/{username}/quotes` — получить все цитаты пользователя.
 - `GET /api/users/quotes/{quoteId}` — получить цитату по ID.
+- `PUT /api/users/{username}/quotes/{quoteId}` — обновить цитату.
+
+	Пример Body (JSON):
+	```json
+	{
+		"text": "",
+		"book": "",
+		"character": ""
+	}
+	```
+- `POST /api/users/{username}/quotes` — создать новую цитату.
+
+	Пример Body (JSON):
+	```json
+	{
+		"text": "",
+		"book": "",
+		"character": ""
+	}
+	```
 
 ### Characters
 - `GET /api/users/{username}/characters` — получить список персонажей пользователя.
+- `GET /api/users/{username}/characters/{characterName}` — получить персонажа по ID.
+- `PUT /api/users/{username}/characters/{characterName}` — обновить персонажа.
+
+	Пример Body (JSON):
+	```json
+	{
+		"description": "",
+		"collection": "",
+		"book": ""
+	}
+	```
+- `POST /api/users/{username}/characters` — создать нового персонажа.
+
+	Пример Body (JSON):
+	```json
+	{
+		"name": "",
+		"description": "",
+		"collection": "",
+		"book": ""
+	}
+	```

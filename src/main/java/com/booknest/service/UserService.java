@@ -82,4 +82,13 @@ public class UserService {
     return convertToDto(updatedUser);
 }
 
+    //Удаление пользователя по username
+
+    public void deleteUser(String username) {
+        if (!userRepository.existsById(username)) {
+            throw new RuntimeException("Пользователь не найден: " + username);
+        }
+        userRepository.deleteById(username);
+    }
+
 }

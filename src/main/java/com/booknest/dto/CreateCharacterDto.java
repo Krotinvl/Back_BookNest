@@ -1,39 +1,19 @@
-package com.booknest.model;
+package com.booknest.dto;
 
-import jakarta.persistence.*;
-
-
-@Entity
-@Table(name = "characters")
-@IdClass(CharacterId.class)
-public class Character {
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "id_user")
-    private User user;
-    
-    @Id
+public class CreateCharacterDto {
     private String name;
-    
     private String description;
-    
     private String collection;
-    
     private String book;
     
-    public Character() {}
+    public CreateCharacterDto() {}
     
-    public Character(User user, String name, String description, String collection, String book) {
-        this.user = user;
+    public CreateCharacterDto(String name, String description, String collection, String book) {
         this.name = name;
         this.description = description;
         this.collection = collection;
         this.book = book;
     }
-    
-    // Getters and Setters
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
     
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
