@@ -36,6 +36,7 @@ public class UserService {
         dto.setDescription(user.getDescription());
         dto.setTelephone(user.getTelephone());
         dto.setActiveDays(user.getActiveDays());
+        dto.setPassword(user.getPassword());
         return dto;
     }
 

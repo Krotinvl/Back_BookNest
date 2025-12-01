@@ -110,10 +110,17 @@ public LibraryBookDto addBookToUserLibrary(String username, AddToLibraryDto addT
         dto.setBookTitle(library.getBook().getTitle());
         dto.setBookAuthor(library.getBook().getAuthor());
         dto.setBookGenre(library.getBook().getGenre());
+        dto.setBookDescription(library.getBook().getDescription());
+        dto.setBookPublishing(library.getBook().getPublishing());
+        dto.setBookDateOfPublication(library.getBook().getDateOfPublication());
+        dto.setBookCycle(library.getBook().getCycle());
+        dto.setBookImage(library.getBook().getImage());
+        dto.setBookImage_type(library.getBook().getImage_type());
         dto.setTotalPages(library.getBook().getPages());
         dto.setCollection(library.getCollection());
         dto.setPagesRead(library.getPages());
         dto.setReadingProgress(calculateProgress(library.getPages(), library.getBook().getPages()));
+        
         return dto;
     }
     
