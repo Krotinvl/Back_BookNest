@@ -11,6 +11,7 @@ import com.booknest.repository.LibraryRepository;
 import com.booknest.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.time.LocalDate;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,14 +23,30 @@ public class LibraryService {
     private final LibraryRepository libraryRepository;
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
-
+    private final PagesService pagesService;
 
     
-    public LibraryService(LibraryRepository libraryRepository, UserRepository userRepository, BookRepository bookRepository) {
+    public LibraryService(LibraryRepository libraryRepository, UserRepository userRepository, BookRepository bookRepository, PagesService pagesService) {
         this.libraryRepository = libraryRepository;
         this.userRepository = userRepository;
         this.bookRepository = bookRepository;
+        this.pagesService = pagesService;
     }
+
+    // Сделать книгу сделать нераспределённой
+    public LibraryBookDto removeBookFromCollection(String username, Long bookId) {
+        List<Library> libraryEntries = libraryRepository.findByUser_UsernameAndBook_Id(username, bookId);
+        if (libraryEntries.isEmpty()) {
+            throw new RuntimeException("Книга не найдена в библиотеке пользователя");
+        }
+
+        Library library = libraryEntries.get(0);
+        library.setCollection("не распределено");
+        Library saved = libraryRepository.save(library);
+        return convertToLibraryBookDto(saved);
+    }
+
+
 
 public LibraryBookDto addBookToCollection(String username, Long bookId, UpdateCollectionDto updateCollectionDto) {
     // Находим запись в библиотеке
@@ -66,6 +83,8 @@ public LibraryBookDto addBookToUserLibrary(String username, AddToLibraryDto addT
     if (bookAlreadyInLibrary) {
         throw new RuntimeException("Книга уже есть в библиотеке пользователя");
     }
+
+    
     
     Library library = new Library();
     library.setUser(user);
@@ -79,6 +98,26 @@ public LibraryBookDto addBookToUserLibrary(String username, AddToLibraryDto addT
     // Возвращаем DTO
     return convertToLibraryBookDto(savedLibrary);
 }
+
+    // Обновить количество прочитанных страниц для книги в библиотеке пользователя
+    public LibraryBookDto updatePagesReadForBook(String username, Long bookId, Integer pagesRead) {
+        List<Library> libraryEntries = libraryRepository.findByUser_UsernameAndBook_Id(username, bookId);
+        if (libraryEntries.isEmpty()) {
+            throw new RuntimeException("Книга не найдена в библиотеке пользователя");
+        }
+
+        Library library = libraryEntries.get(0);
+        Integer oldPages = library.getPages() == null ? 0 : library.getPages();
+        library.setPages(pagesRead);
+        Library saved = libraryRepository.save(library);
+
+        int delta = (pagesRead == 0 ? 0 : pagesRead) - (oldPages == 0 ? 0 : oldPages);
+        if (delta != 0) {
+            pagesService.incrementPages(username, LocalDate.now(), delta);
+        }
+
+        return convertToLibraryBookDto(saved);
+    }
     
     public List<LibraryBookDto> getUserLibraryBooks(String username) {
         
@@ -130,5 +169,14 @@ public LibraryBookDto addBookToUserLibrary(String username, AddToLibraryDto addT
             return 0;
         }
         return (int) ((pagesRead * 100.0) / totalPages);
+    }
+
+    // Удалить книгу из библиотеки
+    public void deleteBookFromLibrary(String username, Long bookId) {
+        List<Library> libraryEntries = libraryRepository.findByUser_UsernameAndBook_Id(username, bookId);
+        if (libraryEntries.isEmpty()) {
+            throw new RuntimeException("Книга не найдена в библиотеке пользователя");
+        }
+        libraryRepository.delete(libraryEntries.get(0));
     }
 }

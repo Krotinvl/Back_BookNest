@@ -92,4 +92,11 @@ public class QuoteService {
                 savedQuote.getCharacter()
         );
     }
+
+    // Удалить цитату
+    public void deleteQuote(Long quoteId) {
+        Quote quote = quoteRepository.findById(quoteId)
+                .orElseThrow(() -> new RuntimeException("Цитата не найдена: " + quoteId));
+        quoteRepository.delete(quote);
+    }
 }

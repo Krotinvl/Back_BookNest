@@ -83,8 +83,28 @@ public class UserService {
     return convertToDto(updatedUser);
 }
 
-    //Удаление пользователя по username
+    // Получить количество дней активности пользователя
+    public Integer getActiveDays(String username) {
+        User user = userRepository.findById(username)
+                .orElseThrow(() -> new RuntimeException("Пользователь не найден: " + username));
+        return user.getActiveDays() == null ? 0 : user.getActiveDays();
+    }
 
+    // Обновить количество дней активности пользователя
+    public UserDto updateActiveDays(String username, Integer activeDays) {
+        User user = userRepository.findById(username)
+                .orElseThrow(() -> new RuntimeException("Пользователь не найден: " + username));
+        
+        if (activeDays == null || activeDays < 0) {
+            throw new RuntimeException("Значение дней активности не может быть отрицательным");
+        }
+        
+        user.setActiveDays(activeDays);
+        User updatedUser = userRepository.save(user);
+        return convertToDto(updatedUser);
+    }
+
+    // Удаление пользователя по username
     public void deleteUser(String username) {
         if (!userRepository.existsById(username)) {
             throw new RuntimeException("Пользователь не найден: " + username);

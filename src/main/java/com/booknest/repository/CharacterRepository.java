@@ -10,4 +10,7 @@ import java.util.List;
 public interface CharacterRepository extends JpaRepository<Character, CharacterId> {
     // Получение всех персонажей пользователя по username
     List<Character> findByUser_Username(String username);
+
+    // Получение персонажей пользователя по названию коллекции
+    List<Character> findByUser_UsernameAndCollection(String username, String collection);
 }

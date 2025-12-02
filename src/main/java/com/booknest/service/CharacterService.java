@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Objects;
 
 @Service
 public class CharacterService {
@@ -49,6 +50,27 @@ public class CharacterService {
                 character.getCollection(),
                 character.getBook()
         );
+    }
+
+
+    // Получение списка персонажей пользователя по названию коллекции
+    
+    public List<CharacterDto> getUserCharactersByCollection(String username, String collection) {
+        if (!userRepository.existsById(username)) {
+            throw new RuntimeException("Пользователь не найден: " + username);
+        }
+
+        List<Character> characters = characterRepository.findByUser_UsernameAndCollection(username, collection);
+
+        return characters.stream()
+                .filter(Objects::nonNull)
+                .map(ch -> new CharacterDto(
+                        ch.getName(),
+                        ch.getDescription(),
+                        ch.getCollection(),
+                        ch.getBook()
+                ))
+                .collect(Collectors.toList());
     }
 
     public CharacterDto updateCharacter(String username, String characterName, UpdateCharacterDto updateCharacterDto) {
@@ -94,5 +116,13 @@ public class CharacterService {
                 savedCharacter.getCollection(),
                 savedCharacter.getBook()
         );
+    }
+
+    // Удалить персонажа
+    public void deleteCharacter(String username, String characterName) {
+        CharacterId characterId = new CharacterId(username, characterName);
+        Character character = characterRepository.findById(characterId)
+                .orElseThrow(() -> new RuntimeException("Персонаж не найден: " + characterName));
+        characterRepository.delete(character);
     }
 }

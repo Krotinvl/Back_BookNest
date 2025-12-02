@@ -1,6 +1,5 @@
 package com.booknest.dto;
 
-import java.util.Base64;
 
 
 public class LibraryBookDto {

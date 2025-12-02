@@ -84,4 +84,11 @@ public class ReviewService {
         Review savedReview = reviewRepository.save(review);
         return convetToReviewBookDto(savedReview);
     }
+
+    // Удалить отзыв
+    public void deleteReview(Long bookId, String username) {
+        Review review = reviewRepository.findByBook_IdAndUser_Username(bookId, username)
+                .orElseThrow(() -> new RuntimeException("Отзыв не найден"));
+        reviewRepository.delete(review);
+    }
 }

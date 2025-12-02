@@ -58,9 +58,6 @@ git clone https://github.com/Krotinvl/Back_BookNest.git
 	```
 
 ### Reviews
-- `GET /api/books/{id}/review` — получить отзывы для книги.
-- `PUT /api/books/{bookId}/review/{username}` — обновить отзыв пользователя.
-
 	Пример Body (JSON):
 	```json
 	{
@@ -70,7 +67,6 @@ git clone https://github.com/Krotinvl/Back_BookNest.git
 	```
 - `POST /api/books/{bookId}/review/{username}` — создать новый отзыв.
 
-	Пример Body (JSON):
 	```json
 	{
 		"bookId": 1,
@@ -94,6 +90,17 @@ git clone https://github.com/Krotinvl/Back_BookNest.git
 	```
 - `DELETE /api/users/{username}` — удалить пользователя.
 
+- `GET /api/users/{username}/activeDays` — получить количество дней активности пользователя.
+
+- `PUT /api/users/{username}/activeDays` — обновить количество дней активности пользователя.
+
+	Пример Body (JSON):
+	```json
+	{
+		"activeDays": 42
+	}
+	```
+
 ### Library
 - `GET /api/users/{username}/library` — получить все записи библиотеки пользователя.
 - `GET /api/users/{username}/library/{collection}` — получить записи по коллекции.
@@ -102,15 +109,26 @@ git clone https://github.com/Krotinvl/Back_BookNest.git
 	Пример Body (JSON):
 	```json
 	{
-		"bookId": 
+		"bookId": 1
 	}
 	```
- - `PUT /api/users/{username}/library/{bookId}/collection` — изменить коллекцию у записи.
+- `PUT /api/users/{username}/library/{bookId}/collection` — изменить коллекцию у записи.
 
 	Пример Body (JSON):
 	```json
 	{
 		"collection": ""
+	}
+	```
+- `DELETE /api/users/{username}/library/{bookId}/collection` — удалить книгу из коллекции (установить как нераспределённую).
+- `DELETE /api/users/{username}/library/{bookId}` — удалить книгу из библиотеки полностью.
+
+- `PUT /api/users/{username}/library/{bookId}/pages` — обновить количество прочитанных страниц в записи библиотеки пользователя.
+
+	Пример Body (JSON):
+	```json
+	{
+		"pages": 120
 	}
 	```
 
@@ -137,10 +155,11 @@ git clone https://github.com/Krotinvl/Back_BookNest.git
 		"character": ""
 	}
 	```
+- `DELETE /api/users/{username}/quotes/{quoteId}` — удалить цитату.
 
 ### Characters
 - `GET /api/users/{username}/characters` — получить список персонажей пользователя.
-- `GET /api/users/{username}/characters/{characterName}` — получить персонажа по ID.
+- `GET /api/users/{username}/characters/{characterName}` — получить персонажа по имени.
 - `PUT /api/users/{username}/characters/{characterName}` — обновить персонажа.
 
 	Пример Body (JSON):
@@ -162,3 +181,41 @@ git clone https://github.com/Krotinvl/Back_BookNest.git
 		"book": ""
 	}
 	```
+- `GET /api/users/{username}/characters/collections` — получить список уникальных коллекций персонажей пользователя.
+- `GET /api/users/{username}/characters/collection/{collection}` — получить персонажей в конкретной коллекции.	
+- `DELETE /api/users/{username}/characters/{characterName}` — удалить персонажа.
+
+### Reviews
+- `POST /api/books/{bookId}/review/{username}` — создать новый отзыв.
+
+	Пример Body (JSON):
+	```json
+	{
+		"rating": 5,
+		"text": ""
+	}
+	```
+- `PUT /api/users/{username}/reviews/{bookId}` — обновить отзыв.
+
+	Пример Body (JSON):
+	```json
+	{
+		"rating": 5,
+		"text": ""
+	}
+	```
+- `DELETE /api/users/{username}/reviews/{bookId}` — удалить отзыв.
+### Pages
+- `GET /api/users/{username}/pages/week` — получить количество прочитанных страниц за последние 7 дней . 
+- `POST /api/users/{username}/pages` — добавить или обновить количество страниц за конкретную дату.
+
+	Пример Body (JSON):
+	```json
+	{
+		"dateDay": "2025-12-02",
+		"pages": 50
+	}
+	```
+
+	- `POST /api/users/{username}/pages/day` — добавить текущий день в список прочитанных страниц (создаёт запись за сегодня, если её нет)
+
