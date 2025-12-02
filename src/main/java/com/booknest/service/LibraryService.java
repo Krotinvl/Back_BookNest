@@ -179,4 +179,8 @@ public LibraryBookDto addBookToUserLibrary(String username, AddToLibraryDto addT
         }
         libraryRepository.delete(libraryEntries.get(0));
     }
+
+    public List<String> getUserLibraryCollection(String username){
+        return libraryRepository.findDistinctCollectionByUser_Username(username);
+    }
 }

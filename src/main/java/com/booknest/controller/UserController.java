@@ -28,6 +28,7 @@ import java.util.Map;
 import com.booknest.service.PagesService;
 import com.booknest.dto.PagesPerDayDto;
 
+
 @RestController
 @RequestMapping("/api/users")
 @CrossOrigin(origins = "*")
@@ -80,6 +81,18 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/{username}/library/collections")
+    public ResponseEntity<List<String>> getUserLibraryColloection(@PathVariable String username) {
+        try {
+            List<String> collection = libraryService.getUserLibraryCollection(username);
+            return ResponseEntity.ok(collection);
+        } catch (RuntimeException e){
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+
     @PostMapping("/{username}/library")
     public ResponseEntity<LibraryBookDto> addBookToUserLibrary(
             @PathVariable String username,

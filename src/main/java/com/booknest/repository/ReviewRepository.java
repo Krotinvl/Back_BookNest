@@ -10,10 +10,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, ReviewId> {
 
-    // Найти все отзавы по id книги
     List<Review> findByBook_Id(Long bookId);
     
-    // Найти отзыв по id книги и username пользователя
     Optional<Review> findByBook_IdAndUser_Username(Long bookId, String username);
     
 }
