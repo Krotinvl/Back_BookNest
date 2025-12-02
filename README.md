@@ -103,6 +103,7 @@ git clone https://github.com/Krotinvl/Back_BookNest.git
 
 ### Library
 - `GET /api/users/{username}/library` — получить все записи библиотеки пользователя.
+- `GET /api/users/{username}/library/{bookId}` — получить конкретную книгу из библиотеки пользователя.
 - `GET /api/users/{username}/library/{collection}` — получить записи по коллекции.
 - `POST /api/users/{username}/library` — добавить книгу в библиотеку.
 

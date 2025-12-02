@@ -79,6 +79,9 @@ public class QuoteService {
                 .orElseThrow(() -> new RuntimeException("Пользователь не найден: " + username));
         
         Quote quote = new Quote();
+        // Генерируем ID вручную: берём max ID + 1
+        Long nextId = getNextQuoteId();
+        quote.setId(nextId);
         quote.setUser(user);
         quote.setText(createQuoteDto.getText());
         quote.setBook(createQuoteDto.getBook());
@@ -91,6 +94,23 @@ public class QuoteService {
                 savedQuote.getBook(),
                 savedQuote.getCharacter()
         );
+    }
+    
+    // Получить следующий доступный ID для цитаты
+    private Long getNextQuoteId() {
+        try {
+            List<Quote> allQuotes = quoteRepository.findAll();
+            if (allQuotes.isEmpty()) {
+                return 1L;
+            }
+            return allQuotes.stream()
+                    .map(Quote::getId)
+                    .max(Long::compareTo)
+                    .orElse(0L) + 1;
+        } catch (Exception e) {
+            // Fallback: используем текущее время в миллисекундах как ID (уникален)
+            return System.currentTimeMillis();
+        }
     }
 
     // Удалить цитату

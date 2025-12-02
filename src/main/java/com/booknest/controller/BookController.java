@@ -102,7 +102,7 @@ public class BookController {
             @PathVariable String username,
             @Valid @RequestBody CreateReviewDto createReviewDto) {
         try {
-            ReviewBookDto createdReview = reviewService.createReview(username, createReviewDto);
+            ReviewBookDto createdReview = reviewService.createReview(bookId, username, createReviewDto);
             return ResponseEntity.ok(createdReview);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().build();

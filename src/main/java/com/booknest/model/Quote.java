@@ -6,21 +6,18 @@ import jakarta.persistence.*;
 @Table(name = "quotes")
 public class Quote {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_quote")
     private Long id;
     
     @ManyToOne
-    @JoinColumn(name = "id_user")
+    @JoinColumn(name = "id_user" , referencedColumnName = "username")
     private User user;
     
     @Column(length = 500)
     private String text;
     
-    @Column(length = 100)
     private String book;
     
-    @Column(name = "character", length = 100)
     private String character;
     
     public Quote() {}

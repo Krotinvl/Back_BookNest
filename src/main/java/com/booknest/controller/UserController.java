@@ -68,7 +68,26 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
-    
+
+    @GetMapping("/{username}/library/collections")
+    public ResponseEntity<List<String>> getUserLibraryColloection(@PathVariable String username) {
+        try {
+            List<String> collection = libraryService.getUserLibraryCollection(username);
+            return ResponseEntity.ok(collection);
+        } catch (RuntimeException e){
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/{username}/library/book/{bookId}")
+    public ResponseEntity<LibraryBookDto> getUserLibraryBook(@PathVariable String username, @PathVariable Long bookId) {
+        try {
+            LibraryBookDto libraryBook = libraryService.getUserLibraryBook(username, bookId);
+            return ResponseEntity.ok(libraryBook);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     @GetMapping("/{username}/library/{collection}")
     public ResponseEntity<List<LibraryBookDto>> getUserLibraryBooksByCollection(
@@ -78,16 +97,6 @@ public class UserController {
             List<LibraryBookDto> libraryBooks = libraryService.getUserLibraryBooksByCollection(username, collection);
             return ResponseEntity.ok(libraryBooks);
         } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @GetMapping("/{username}/library/collections")
-    public ResponseEntity<List<String>> getUserLibraryColloection(@PathVariable String username) {
-        try {
-            List<String> collection = libraryService.getUserLibraryCollection(username);
-            return ResponseEntity.ok(collection);
-        } catch (RuntimeException e){
             return ResponseEntity.notFound().build();
         }
     }
@@ -235,8 +244,8 @@ public ResponseEntity<UserDto> updateUser(
             QuoteDto createdQuote = quoteService.createQuote(username, createQuoteDto);
             return ResponseEntity.ok(createdQuote);
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
-        }
+            return ResponseEntity.notFound().build();
+}
     }
 
     @PutMapping("/{username}/characters/{characterName}")

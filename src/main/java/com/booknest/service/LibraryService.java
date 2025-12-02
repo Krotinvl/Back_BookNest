@@ -1,6 +1,7 @@
 package com.booknest.service;
 
 import com.booknest.dto.AddToLibraryDto;
+import com.booknest.dto.BookDto;
 import com.booknest.dto.LibraryBookDto;
 import com.booknest.dto.UpdateCollectionDto;
 import com.booknest.model.Book;
@@ -128,6 +129,17 @@ public LibraryBookDto addBookToUserLibrary(String username, AddToLibraryDto addT
                 .map(this::convertToLibraryBookDto)
                 .collect(Collectors.toList());
     }
+
+    // Получить конкретную книгу из библиотеки пользователя
+    public LibraryBookDto getUserLibraryBook(String username, Long bookId) {
+        List<Library> libraryEntries = libraryRepository.findByUser_UsernameAndBook_Id(username, bookId);
+        
+        if (libraryEntries.isEmpty()) {
+            throw new RuntimeException("Книга не найдена в библиотеке пользователя: " + bookId);
+        }
+        
+        return convertToLibraryBookDto(libraryEntries.get(0));
+    }
     
     // Метод для получения книг по конкретной коллекции
     public List<LibraryBookDto> getUserLibraryBooksByCollection(String username, String collection) {
@@ -144,21 +156,26 @@ public LibraryBookDto addBookToUserLibrary(String username, AddToLibraryDto addT
     
 
     private LibraryBookDto convertToLibraryBookDto(Library library) {
+        Book book = library.getBook();
+        BookDto bookDto = new BookDto(
+            book.getId(),
+            book.getTitle(),
+            book.getAuthor(),
+            book.getGenre(),
+            book.getPages(),
+            book.getDescription(),
+            book.getPublishing(),
+            book.getDateOfPublication(),
+            book.getCycle(),
+            book.getImage(),
+            book.getImage_type()
+        );
+        
         LibraryBookDto dto = new LibraryBookDto();
-        dto.setBookId(library.getBook().getId());
-        dto.setBookTitle(library.getBook().getTitle());
-        dto.setBookAuthor(library.getBook().getAuthor());
-        dto.setBookGenre(library.getBook().getGenre());
-        dto.setBookDescription(library.getBook().getDescription());
-        dto.setBookPublishing(library.getBook().getPublishing());
-        dto.setBookDateOfPublication(library.getBook().getDateOfPublication());
-        dto.setBookCycle(library.getBook().getCycle());
-        dto.setBookImage(library.getBook().getImage());
-        dto.setBookImage_type(library.getBook().getImage_type());
-        dto.setTotalPages(library.getBook().getPages());
+        dto.setBook(bookDto);
         dto.setCollection(library.getCollection());
         dto.setPagesRead(library.getPages());
-        dto.setReadingProgress(calculateProgress(library.getPages(), library.getBook().getPages()));
+        dto.setReadingProgress(calculateProgress(library.getPages(), book.getPages()));
         
         return dto;
     }

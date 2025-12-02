@@ -18,10 +18,7 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/books/**").permitAll()
-                .requestMatchers("/api/users/**").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()  // Временно разрешить ВСЕ запросы
             )
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

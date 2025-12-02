@@ -68,12 +68,12 @@ public class ReviewService {
 
     // Создание нового отзыва
      
-    public ReviewBookDto createReview(String username, CreateReviewDto createReviewDto) {
-        Book book = bookRepository.findById(createReviewDto.getBookId())
-                .orElseThrow(() -> new RuntimeException("Книга не найдена: " + createReviewDto.getBookId()));
+        public ReviewBookDto createReview(Long bookId, String username, CreateReviewDto createReviewDto) {
+        Book book = bookRepository.findById(bookId)
+            .orElseThrow(() -> new RuntimeException("Книга не найдена: " + bookId));
         
         User user = userRepository.findById(username)
-                .orElseThrow(() -> new RuntimeException("Пользователь не найден: " + username));
+            .orElseThrow(() -> new RuntimeException("Пользователь не найден: " + username));
         
         Review review = new Review();
         review.setBook(book);
@@ -83,7 +83,7 @@ public class ReviewService {
         
         Review savedReview = reviewRepository.save(review);
         return convetToReviewBookDto(savedReview);
-    }
+        }
 
     // Удалить отзыв
     public void deleteReview(Long bookId, String username) {
